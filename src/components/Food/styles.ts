@@ -12,7 +12,6 @@ export const useStyles = makeStyles((theme: Theme) =>
       height: `${props.dotSize}%`,
       backgroundColor: theme.palette.error.main,
       borderRadius: "50%",
-      border: "1px solid #fff",
       zIndex: 1,
     }),
   })

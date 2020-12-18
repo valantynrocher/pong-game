@@ -12,6 +12,8 @@ import Container from "@material-ui/core/Container";
 import GameBar from "./components/GameBar";
 import { amber, teal } from "@material-ui/core/colors";
 import BackdropComponent from "./components/Backdrop/BackdropComponent";
+import GameStarterDialog from "./components/GameStarterDialog";
+import GameOverDialog from "./components/GameOverDialog";
 
 const font = "'Ultra', serif";
 
@@ -74,6 +76,8 @@ const App = () => {
   return (
     <Provider>
       <ThemeProvider theme={defaultTheme}>
+        <GameStarterDialog />
+        <GameOverDialog />
         <div className={classes.app}>
           <Container
             className={classes.container}

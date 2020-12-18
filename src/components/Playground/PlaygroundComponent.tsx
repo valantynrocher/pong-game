@@ -11,11 +11,16 @@ const INITIAL_SNAKE_POSITION = [
 ];
 
 const PlaygroundComponent = () => {
-  const { state, setDirection, setSpeed, setPoints } = useContext(AppContext);
+  const {
+    state,
+    setDirection,
+    setSpeed,
+    setPoints,
+    togglePlaying,
+  } = useContext(AppContext);
 
   const [food, setFood] = useState(randomPosition(state.dotSize));
   const [snakeDots, setSnakeDots] = useState<any[]>(INITIAL_SNAKE_POSITION);
-  const [isStop, setIsStop] = useState(false);
 
   const classes = useStyles();
 
@@ -95,23 +100,17 @@ const PlaygroundComponent = () => {
   }, [snakeDots]);
 
   useEffect(() => {
-    if (!isStop) {
+    if (state.isPlaying) {
       const interval = setInterval(() => {
         moveSnake();
       }, state.speed);
       return () => clearInterval(interval);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.direction, isStop, snakeDots, state.speed]);
+  }, [state.direction, snakeDots, state.speed, state.isPlaying]);
 
   const events = useMemo(() => {
     return {
-      handleSelectChange: (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSpeed(Number(event.target.value));
-      },
-      handleStopClick: () => {
-        setIsStop((isStop) => !isStop);
-      },
       handleKeyDown: (e: KeyboardEvent) => {
         if (
           e.key === "ArrowUp" ||
@@ -124,9 +123,12 @@ const PlaygroundComponent = () => {
             .toUpperCase() as DirectionType;
           setDirection(direction);
         }
+        if (e.key === " ") {
+          togglePlaying();
+        }
       },
     };
-  }, [setDirection, setSpeed]);
+  }, [setDirection, togglePlaying]);
 
   useEffect(() => {
     window.onkeydown = events.handleKeyDown;
@@ -134,20 +136,6 @@ const PlaygroundComponent = () => {
 
   return (
     <React.Fragment>
-      <div>
-        <button onClick={events.handleStopClick}>
-          {isStop ? "Reprendre" : "Pause"}
-        </button>
-      </div>
-      <div>
-        <label htmlFor="level-choice">Niveau :</label>
-        <select onChange={events.handleSelectChange} id="level-choice">
-          <option value={500}>Facile</option>
-          <option value={300}>Intermédiaire</option>
-          <option value={100}>Pro</option>
-        </select>
-      </div>
-      <div>Points: {state.points}</div>
       <div className={classes.root}>
         <Snake dots={snakeDots} />
         <Food position={food} />

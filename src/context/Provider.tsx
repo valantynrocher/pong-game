@@ -23,6 +23,9 @@ const reducer = (state: ContextState, action: ActionTypes) => {
       case "points":
         draft.points = action.payload!.value!;
         break;
+      case "play":
+        draft.isPlaying = !draft.isPlaying;
+        break;
       default:
         return;
     }
@@ -44,6 +47,7 @@ const Provider = (props: ProviderProps) => {
     dispatch({ type: "direction", payload: { direction } });
   const setPoints = (value: number) =>
     dispatch({ type: "points", payload: { value } });
+  const togglePlaying = () => dispatch({ type: "play" });
 
   return (
     <AppContext.Provider
@@ -53,6 +57,7 @@ const Provider = (props: ProviderProps) => {
         setSpeed,
         setDirection,
         setPoints,
+        togglePlaying,
       }}
     >
       {props.children}

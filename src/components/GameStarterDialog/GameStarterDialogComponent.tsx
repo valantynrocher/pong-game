@@ -43,6 +43,7 @@ const GameStarterDialogComponent = () => {
       aria-describedby="alert-dialog-description"
       className={classes.root}
       disableBackdropClick
+      disableEscapeKeyDown
     >
       <DialogTitle id="responsive-dialog-title">Ready to play ?</DialogTitle>
       <DialogContent>

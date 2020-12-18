@@ -17,7 +17,7 @@ const GameOverDialogComponent = () => {
 
   const events = useMemo(
     () => ({
-      handleTryAgain: () => {
+      handleReset: () => {
         reset();
       },
     }),
@@ -26,7 +26,7 @@ const GameOverDialogComponent = () => {
   return (
     <Dialog
       open={state.status === "END" && !state.isPlaying}
-      onClose={events.handleTryAgain}
+      onClose={events.handleReset}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       className={classes.root}
@@ -39,7 +39,7 @@ const GameOverDialogComponent = () => {
       </DialogContent>
       <DialogActions classes={{ root: classes.dialogActionsRoot }}>
         <Button
-          onClick={events.handleTryAgain}
+          onClick={events.handleReset}
           variant="contained"
           color="secondary"
           size="large"

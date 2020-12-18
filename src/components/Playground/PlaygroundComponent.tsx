@@ -3,12 +3,7 @@ import Food from "../Food";
 import randomPosition from "../../functions/randomPosition";
 import Snake from "../Snake";
 import { useStyles } from "./styles";
-import { AppContext, DirectionType, INITIAL_STATE } from "../../context";
-
-const INITIAL_SNAKE_POSITION = [
-  [0, 0],
-  [4, 0],
-];
+import { AppContext, DirectionType } from "../../context";
 
 const PlaygroundComponent = () => {
   const {
@@ -17,10 +12,15 @@ const PlaygroundComponent = () => {
     setSpeed,
     setPoints,
     togglePlaying,
+    setStatus,
   } = useContext(AppContext);
 
   const [food, setFood] = useState(randomPosition(state.dotSize));
-  const [snakeDots, setSnakeDots] = useState<any[]>(INITIAL_SNAKE_POSITION);
+  const [snakeDots, setSnakeDots] = useState<any[]>(state.snake);
+  useEffect(() => {
+    state.status !== "PROGRESS" && setSnakeDots(state.snake);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.status]);
 
   const classes = useStyles();
 
@@ -85,10 +85,8 @@ const PlaygroundComponent = () => {
   };
 
   const gameOver = () => {
-    alert("PERDU !");
-    setSnakeDots(INITIAL_SNAKE_POSITION);
-    setSpeed(INITIAL_STATE.speed);
-    setPoints(INITIAL_STATE.points);
+    togglePlaying();
+    setStatus("END");
     setDirection("RIGHT");
   };
 
@@ -102,7 +100,7 @@ const PlaygroundComponent = () => {
   useEffect(() => {
     if (state.isPlaying) {
       const interval = setInterval(() => {
-        moveSnake();
+        state.status === "PROGRESS" && moveSnake();
       }, state.speed);
       return () => clearInterval(interval);
     }
@@ -112,23 +110,25 @@ const PlaygroundComponent = () => {
   const events = useMemo(() => {
     return {
       handleKeyDown: (e: KeyboardEvent) => {
-        if (
-          e.key === "ArrowUp" ||
-          e.key === "ArrowDown" ||
-          e.key === "ArrowLeft" ||
-          e.key === "ArrowRight"
-        ) {
-          const direction = e.key
-            .replace("Arrow", "")
-            .toUpperCase() as DirectionType;
-          setDirection(direction);
-        }
-        if (e.key === " ") {
-          togglePlaying();
+        if (state.isPlaying) {
+          if (
+            e.key === "ArrowUp" ||
+            e.key === "ArrowDown" ||
+            e.key === "ArrowLeft" ||
+            e.key === "ArrowRight"
+          ) {
+            const direction = e.key
+              .replace("Arrow", "")
+              .toUpperCase() as DirectionType;
+            setDirection(direction);
+          }
+          if (e.key === " ") {
+            togglePlaying();
+          }
         }
       },
     };
-  }, [setDirection, togglePlaying]);
+  }, [setDirection, state.isPlaying, togglePlaying]);
 
   useEffect(() => {
     window.onkeydown = events.handleKeyDown;

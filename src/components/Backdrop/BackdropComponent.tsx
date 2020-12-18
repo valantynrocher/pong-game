@@ -19,7 +19,7 @@ const BackdropComponent = () => {
   return (
     <Backdrop
       className={classes.backdrop}
-      open={!state.isPlaying}
+      open={!state.isPlaying && state.status === "PROGRESS"}
       onClick={events.handleClose}
     >
       <Typography variant="h1" component="div">

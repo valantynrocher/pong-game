@@ -5,6 +5,7 @@ import {
   ActionTypes,
   AppContext,
   DirectionType,
+  StatusType,
 } from ".";
 import produce from "immer";
 
@@ -25,6 +26,17 @@ const reducer = (state: ContextState, action: ActionTypes) => {
         break;
       case "play":
         draft.isPlaying = !draft.isPlaying;
+        break;
+      case "status":
+        draft.status = action.payload!.status!;
+        break;
+      case "reset":
+        draft.direction = INITIAL_STATE.direction!;
+        draft.dotSize = INITIAL_STATE.dotSize;
+        draft.isPlaying = INITIAL_STATE.isPlaying;
+        draft.points = INITIAL_STATE.points;
+        draft.speed = INITIAL_STATE.speed;
+        draft.status = INITIAL_STATE.status;
         break;
       default:
         return;
@@ -48,6 +60,9 @@ const Provider = (props: ProviderProps) => {
   const setPoints = (value: number) =>
     dispatch({ type: "points", payload: { value } });
   const togglePlaying = () => dispatch({ type: "play" });
+  const setStatus = (status: StatusType) =>
+    dispatch({ type: "status", payload: { status } });
+  const reset = () => dispatch({ type: "reset", payload: {} });
 
   return (
     <AppContext.Provider
@@ -58,6 +73,8 @@ const Provider = (props: ProviderProps) => {
         setDirection,
         setPoints,
         togglePlaying,
+        setStatus,
+        reset,
       }}
     >
       {props.children}

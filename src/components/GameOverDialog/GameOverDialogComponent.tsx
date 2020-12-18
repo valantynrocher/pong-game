@@ -30,6 +30,7 @@ const GameOverDialogComponent = () => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       className={classes.root}
+      disableBackdropClick
     >
       <DialogTitle id="responsive-dialog-title">Yoo loose :(</DialogTitle>
       <DialogContent>

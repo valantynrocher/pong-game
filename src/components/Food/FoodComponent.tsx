@@ -6,7 +6,10 @@ import { useStyles } from "./styles";
 const FoodComponent = (props: FoodProps) => {
   const { position } = props;
   const { state } = useContext(AppContext);
-  const classes = useStyles({ dotSize: state.dotSize });
+  const classes = useStyles({
+    dotSize: state.dotSize,
+    color: state.theme.food,
+  });
 
   const style = {
     left: `${position[0]}%`,

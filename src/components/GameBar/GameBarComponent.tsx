@@ -1,6 +1,12 @@
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { AppContext } from "../../context";
 import { useStyles } from "./styles";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -8,11 +14,16 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SettingsManager from "../SettingsManager";
+import Switch from "@material-ui/core/Switch";
+import { useTheme } from "@material-ui/core/styles";
 
 const GameBarComponent = () => {
-  const { state, togglePlaying, reset } = useContext(AppContext);
+  const { state, togglePlaying, reset, toggleThemeType } =
+    useContext(AppContext);
 
   const classes = useStyles();
+
+  const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -48,8 +59,11 @@ const GameBarComponent = () => {
         setAnchorEl(null);
         togglePlaying();
       },
+      handleSwitchChange: () => {
+        toggleThemeType();
+      },
     };
-  }, [reset, togglePlaying]);
+  }, [reset, togglePlaying, toggleThemeType]);
 
   return (
     <div className={classes.root}>
@@ -86,17 +100,23 @@ const GameBarComponent = () => {
         </IconButton>
       </div>
       <div className={classes.flexCenter}>
+        {/* <Switch
+          onChange={events.handleSwitchChange}
+          defaultChecked
+          color="default"
+          inputProps={{ "aria-label": "checkbox with default color" }}
+        />
         <IconButton
           onClick={events.handleSettingsOpen}
           classes={{ root: classes.buttonRoot }}
           color="primary"
         >
           <SettingsIcon />
-        </IconButton>
-        <SettingsManager
+        </IconButton> */}
+        {/* <SettingsManager
           anchorEl={anchorEl}
           onClose={events.handleSettingsClose}
-        />
+        /> */}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 interface StyleProps {
   dotSize: number;
+  color: string;
 }
 
 export const useStyles = makeStyles((theme: Theme) =>
@@ -10,7 +11,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       width: `${props.dotSize}%`,
       height: `${props.dotSize}%`,
-      backgroundColor: theme.palette.error.main,
+      backgroundColor: props.color,
       borderRadius: "50%",
       zIndex: 1,
     }),

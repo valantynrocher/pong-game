@@ -33,7 +33,7 @@ const GameOverDialogComponent = () => {
       disableBackdropClick
       disableEscapeKeyDown
     >
-      <DialogTitle id="responsive-dialog-title">Yoo loose :(</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">You loose :(</DialogTitle>
       <DialogContent>
         <DialogContentText>You won {state.points} points !</DialogContentText>
       </DialogContent>

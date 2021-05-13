@@ -38,6 +38,9 @@ const reducer = (state: ContextState, action: ActionTypes) => {
         draft.speed = INITIAL_STATE.speed;
         draft.status = INITIAL_STATE.status;
         break;
+      case "theme-type":
+        draft.theme.type = draft.theme.type === "light" ? "dark" : "light";
+        break;
       default:
         return;
     }
@@ -63,6 +66,7 @@ const Provider = (props: ProviderProps) => {
   const setStatus = (status: StatusType) =>
     dispatch({ type: "status", payload: { status } });
   const reset = () => dispatch({ type: "reset", payload: {} });
+  const toggleThemeType = () => dispatch({ type: "theme-type", payload: {} });
 
   return (
     <AppContext.Provider
@@ -75,6 +79,7 @@ const Provider = (props: ProviderProps) => {
         togglePlaying,
         setStatus,
         reset,
+        toggleThemeType,
       }}
     >
       {props.children}
